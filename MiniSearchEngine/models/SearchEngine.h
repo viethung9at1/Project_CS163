@@ -11,8 +11,7 @@ using namespace std;
 
 struct result {
 	string filename;
-	vector<int> occur;
-	int point;
+	vector<int> occurs;
 
 	/* OPERATOR */
 	bool operator< (result b);
@@ -37,6 +36,8 @@ public:
 
 	// engine.cpp
 	vector<result> searchQuery(string text);
+	bool isStopWord(string key);
+	vector<int> combineOccurs(vector<int> occur1, vector<int> occur2);
 };
 
 #endif
