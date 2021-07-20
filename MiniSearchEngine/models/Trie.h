@@ -14,7 +14,7 @@ struct TrieNode {
 	TrieNode();
 
 	/* METHODS */
-	void insert(string key, int occur, bool isTitle, bool isStopWord);
+	void insert(string key, int occur, bool isTitle);
 	void search(string key, bool isTitle);
 };
 
