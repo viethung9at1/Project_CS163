@@ -13,6 +13,7 @@ using namespace std;
 struct result {
 	string filename;
 	vector<int> occurs;
+	int point;
 
 	/* OPERATOR */
 	bool operator< (result b);
@@ -32,8 +33,15 @@ public:
 
 	// interface.cpp
 	void run();
-	vector<string> getSuggestion(); // Online History
-	set<string> getWords(string text);
+	void drawGoogle(int x, int y);
+	void suggest(int coor, string data);
+
+	vector<string> getSuggestion(vector<string>history, string text);// Online History
+	void readInput(vector<string>& history, string& text, int x, int y, bool& stop);
+	void drawFrame(int a, int b);
+	void draw(int x, int y);
+
+	//set<string> getWords(string text);
 
 	void showResult(vector<result> results, string text, set<string> words);
 	vector<string> getReview(string filename, set<string> words, int maxLength);
