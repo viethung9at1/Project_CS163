@@ -1,5 +1,6 @@
 #ifndef SEARCH_ENGINE
 #define SEARCH_ENGINE
+#endif
 
 #include "Trie.h"
 #include "console.h"
@@ -35,7 +36,7 @@ class SearchEngine {
 public:
 	// load.cpp
 	void loadData(); // Load files, stopwords
-	void loadFile(TrieNode* root, string filename);
+	void loadFile(TrieNode*& root, string filename);
 
 	// interface.cpp
 	void run();
@@ -61,5 +62,3 @@ public:
 	vector<result> searchQuery(string text);
 	vector<int> searchQuery(string filename, string text);
 };
-
-#endif
