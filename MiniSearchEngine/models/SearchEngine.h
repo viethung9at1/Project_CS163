@@ -8,6 +8,7 @@
 #include <vector>
 #include <set>
 #include <algorithm>
+#include <sstream>
 using namespace std;
 
 struct result {
@@ -25,7 +26,12 @@ struct result {
 class SearchEngine {
 	map<string, TrieNode*> data;
 	TrieNode* stopWords;
+
 	vector<string> filenames;
+	map<string, int> fileLength;
+
+	map<string, int> synoMap;
+	vector< vector<string> > synoList;
 public:
 	// load.cpp
 	void loadData(); // Load files, stopwords
@@ -49,6 +55,9 @@ public:
 
 	// engine.cpp
 	bool isStopWord(string key);
+	bool getRange(string word, string left, string right);
+	vector<int> exactCombineOccurs(vector<int> occur1, vector<int> occur2);
+	vector<int> exactMatch(vector<int> exactSearch, int numberOfWord);
 	vector<result> searchQuery(string text);
 	vector<int> searchQuery(string filename, string text);
 };
