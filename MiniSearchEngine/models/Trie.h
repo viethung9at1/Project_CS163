@@ -16,9 +16,7 @@ struct TrieNode {
 	/* METHODS */
 	void insert(string key, int occur, bool isTitle);
 	TrieNode* search(string key, bool isTitle);
+	int convert(char key);
 };
-
-int convert(char key);
-vector<int> combine(vector<int> occur1, vector<int> occur2);
 
 #endif
