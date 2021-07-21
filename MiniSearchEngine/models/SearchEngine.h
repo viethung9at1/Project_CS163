@@ -49,7 +49,6 @@ public:
 
 	// engine.cpp
 	bool isStopWord(string key);
-	vector<int> combineOccurs(vector<int> occur1, vector<int> occur2);
 	vector<result> searchQuery(string text);
 	vector<int> searchQuery(string filename, string text);
 };
