@@ -16,9 +16,10 @@ struct TrieNode {
 	/* METHODS */
 	void insert(string key, int occur, bool isTitle);
 	vector<int> search(string key, bool isTitle);
-	vector<int> searchRange(TrieNode* node, float left, float right, string key = "");
-	vector<int> combineOccurs(vector<int> occur1, vector<int> occur2);
-	int convert(char key);
 };
+
+int convert(char key);
+vector<int> combineOccurs(vector<int> occur1, vector<int> occur2);
+vector<int> searchRange(TrieNode* node, double left, double right, string key = "");
 
 #endif
