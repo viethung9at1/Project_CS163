@@ -17,10 +17,18 @@ void TrieNode::insert(string key, int occur, bool isTitle) {
 	node->isTitle |= isTitle;
 	node->occurs.push_back(occur);
 }
-void TrieNode::search(string key, bool isTitle) {
-
+TrieNode* TrieNode::search(string key, bool isTitle) {
+	TrieNode* node = this;
+	int n = key.size();
+	for (int i = 0; i < n; ++i) {
+		int c = convert(key[i]);
+		if (c == -1) continue;
+		if (!node->child[c]) return NULL;
+		node = node->child[c];
+	}
+	return node->isWord && (node->isTitle || !isTitle) ? node : NULL;
 }
-int convert(char key) {
+int TrieNode::convert(char key) {
 	if ('0' <= key && key <= '9') return key - '0';
 	if ('a' <= key && key <= 'z') return key - 'a' + 10;
 	if ('A' <= key && key <= 'Z') return key - 'A' + 10;
