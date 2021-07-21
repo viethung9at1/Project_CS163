@@ -30,13 +30,11 @@ public:
 	void loadFile(TrieNode* root, string filename);
 
 	// interface.cpp
-	void run()
-	void gotoxy(int x, int y);
+	void run();
 	void drawGoogle(int x, int y);
-	void TextColor(int color);
 	void suggest(int coor, string data);
 
-	vector<string> getSuggestion();// Online History
+	vector<string> getSuggestion(vector<string>history, string text);// Online History
 	void readInput(vector<string>& history, string& text, int x, int y, bool& stop);
 	void drawFrame(int a, int b);
 	void draw(int x, int y);
