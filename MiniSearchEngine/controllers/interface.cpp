@@ -1,5 +1,6 @@
 #include "../models/SearchEngine.h"
 
+#define gotoxy gotoXY;
 void SearchEngine::run() {
     string rawText;
 
@@ -14,7 +15,7 @@ void SearchEngine::run() {
     int y1 = 15;
 
     // coordinate for read input
-    int a1 = 50;
+    int a1 = 44;
     int b1 = 15;
 
     drawFrame(a, b);
@@ -64,7 +65,7 @@ void SearchEngine::draw(int x, int y) {
     cout << "SUGGESTION  :";
 }
 void SearchEngine::suggest(int coor, string data) {
-    int a = 50;
+    int a = 44;
     int b = 16;
 
     gotoXY(a, b + coor * 1);
@@ -231,7 +232,7 @@ void SearchEngine::readInput(vector<string>& history, string& text, int x, int y
         //clear all suggestion
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 30; j++) {
-                gotoXY(50 + j, (i + 1) * 1 + 16);
+                gotoXY(44 + j, (i + 1) * 1 + 16);
                 cout << ' ';
             }
         }
