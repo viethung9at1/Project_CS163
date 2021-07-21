@@ -7,6 +7,7 @@
 #include <iostream>
 #include <vector>
 #include <set>
+#include <algorithm>
 using namespace std;
 
 struct result {
@@ -15,11 +16,15 @@ struct result {
 
 	/* OPERATOR */
 	bool operator< (result b);
+
+	/* CONSTRUCTOR */
+	result(string filename, vector<int> occurs);
 };
 
 class SearchEngine {
 	map<string, TrieNode*> data;
 	TrieNode* stopWords;
+	vector<string> filenames;
 public:
 	// load.cpp
 	void loadData(); // Load files, stopwords
@@ -35,9 +40,10 @@ public:
 	vector<string> getContent(string filename, int maxLength);
 
 	// engine.cpp
-	vector<result> searchQuery(string text);
 	bool isStopWord(string key);
 	vector<int> combineOccurs(vector<int> occur1, vector<int> occur2);
+	vector<result> searchQuery(string text);
+	vector<int> searchQuery(string filename, string text);
 };
 
 #endif
