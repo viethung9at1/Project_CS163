@@ -7,23 +7,25 @@
 #include <iostream>
 #include <vector>
 #include <set>
-#include <conio.h>
-#include <Windows.h>
+#include <algorithm>
 using namespace std;
 
 struct result {
 	string filename;
-	vector<int> occur;
+	vector<int> occurs;
 	int point;
 
 	/* OPERATOR */
 	bool operator< (result b);
+
+	/* CONSTRUCTOR */
+	result(string filename, vector<int> occurs);
 };
 
 class SearchEngine {
 	map<string, TrieNode*> data;
 	TrieNode* stopWords;
-
+	vector<string> filenames;
 public:
 	// load.cpp
 	void loadData(); // Load files, stopwords
@@ -46,7 +48,10 @@ public:
 	vector<string> getContent(string filename, int maxLength);
 
 	// engine.cpp
+	bool isStopWord(string key);
+	vector<int> combineOccurs(vector<int> occur1, vector<int> occur2);
 	vector<result> searchQuery(string text);
+	vector<int> searchQuery(string filename, string text);
 };
 
 #endif
