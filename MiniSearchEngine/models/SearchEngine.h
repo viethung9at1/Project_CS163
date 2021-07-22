@@ -11,9 +11,7 @@
 #include <algorithm>
 #include <sstream>
 
-using std::set;
-using std::map;
-using std::vector;
+using std::set,std::map,std::vector;
 
 struct result {
 	string filename;
@@ -28,6 +26,7 @@ struct result {
 };
 
 class SearchEngine {
+private:
 	map<string, TrieNode*> data;
 	TrieNode* stopWords;
 
