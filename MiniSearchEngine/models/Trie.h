@@ -3,8 +3,8 @@
 
 #include <iostream>
 #include <vector>
-using namespace std;
-
+using std::vector;
+using std::string;
 struct TrieNode {
 	TrieNode* child[42]; // 0-9:number, 10-35:a-z, 36:':', 37:'.', 38:'$', 39:'%', 40:'#', 41:'-'
 	bool isWord, isTitle;
