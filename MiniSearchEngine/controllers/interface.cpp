@@ -191,14 +191,16 @@ void SearchEngine::readInput(vector<string>& history, string& text, int x, int y
     if (history.size() == 0) {
         //history.erase(history.begin(), history.end());
         fin.open("history.txt");
-        while (!fin.eof()) {
-            getline(fin, tem1);
-            history.push_back(tem1);
+        if (fin) {
+            while (!fin.eof()) {
+                getline(fin, tem1);
+                history.push_back(tem1);
+                history.pop_back();
+            }
         }
-        history.pop_back();
+        else history.push_back("");
         fin.close();
     }
-
     vector<string> t;
     for (auto &x : getSuggestion(history, text)) {
         t.push_back(x);
