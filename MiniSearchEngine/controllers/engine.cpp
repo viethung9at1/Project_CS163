@@ -81,10 +81,10 @@ vector<int> SearchEngine::searchQuery(string filename, string text) {
 			word = word.substr(9);
 			if (filename.substr(filename.size() - word.size()) != word) return NONE;
 		}
-		else if (('0' <= word[0] && word[0] <= '9') || word[0] == '#') { // strictly check
+		else if (('0' <= word[0] && word[0] <= '9') || word[0] == '$') { // strictly check
 			string left, right;
 			if (!getRange(word, left, right)) continue;
-			search = left[0] == '$' ?
+			search = left[0] != '$' ?
 				searchRange(data[filename], atof(left.c_str()), atof(right.c_str())) :
 				searchRange(data[filename]->child[convert('$')], atof(left.c_str()), atof(right.c_str()));
 			if (!search.size()) return NONE;
