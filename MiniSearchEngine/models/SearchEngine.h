@@ -22,7 +22,7 @@ struct result {
 	bool operator< (result b);
 
 	/* CONSTRUCTOR */
-	result(string filename, vector<int> occurs);
+	result(string filename, vector<int> occurs, int totalOperator);
 };
 
 class SearchEngine {
@@ -60,5 +60,5 @@ public:
 	vector<int> exactCombineOccurs(vector<int> occur1, vector<int> occur2);
 	vector<int> exactMatch(vector<int> exactSearch, int numberOfWord);
 	vector<result> searchQuery(string text);
-	vector<int> searchQuery(string filename, string text);
+	result searchQuery(string filename, string text);
 };
