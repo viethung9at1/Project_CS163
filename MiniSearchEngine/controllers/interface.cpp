@@ -195,7 +195,6 @@ void SearchEngine::readInput(vector<string>& history, string& text, int x, int y
             while (!fin.eof()) {
                 getline(fin, tem1);
                 history.push_back(tem1);
-                history.pop_back();
             }
         }
         else history.push_back("");
