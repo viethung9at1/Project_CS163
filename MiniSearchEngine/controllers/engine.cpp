@@ -1,9 +1,12 @@
 #include "../models/SearchEngine.h"
 using namespace std;
 result::result(string filename, vector<int> occurs) : filename(filename), occurs(occurs) {
+	point = occurs.size();
+	for (int i = 0; i < occurs.size() - 1; ++i)
+		point += (occurs[i] + 1 == occurs[i + 1]);
 }
 bool result::operator< (result b) {
-	return occurs.size() > b.occurs.size() || (occurs.size() == b.occurs.size() && filename < b.filename);
+	return point > b.point || (point == b.point && filename < b.filename);
 }
 bool SearchEngine::isStopWord(string key) {
 	return (stopWords->search(key, 0)).size();
