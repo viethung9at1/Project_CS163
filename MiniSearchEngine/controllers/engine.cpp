@@ -1,9 +1,12 @@
 #include "../models/SearchEngine.h"
 using namespace std;
 result::result(string filename, vector<int> occurs) : filename(filename), occurs(occurs) {
+	point = occurs.size();
+	for (int i = 0; i < occurs.size() - 1; ++i)
+		point += (occurs[i] + 1 == occurs[i + 1]);
 }
 bool result::operator< (result b) {
-	return occurs.size() > b.occurs.size() || (occurs.size() == b.occurs.size() && filename < b.filename);
+	return point > b.point || (point == b.point && filename < b.filename);
 }
 bool SearchEngine::isStopWord(string key) {
 	return (stopWords->search(key, 0)).size();
@@ -78,10 +81,10 @@ vector<int> SearchEngine::searchQuery(string filename, string text) {
 			word = word.substr(9);
 			if (filename.substr(filename.size() - word.size()) != word) return NONE;
 		}
-		else if (('0' <= word[0] && word[0] <= '9') || word[0] == '#') { // strictly check
+		else if (('0' <= word[0] && word[0] <= '9') || word[0] == '$') { // strictly check
 			string left, right;
 			if (!getRange(word, left, right)) continue;
-			search = left[0] == '$' ?
+			search = left[0] != '$' ?
 				searchRange(data[filename], atof(left.c_str()), atof(right.c_str())) :
 				searchRange(data[filename]->child[convert('$')], atof(left.c_str()), atof(right.c_str()));
 			if (!search.size()) return NONE;
