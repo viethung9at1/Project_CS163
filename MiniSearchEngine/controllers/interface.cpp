@@ -1,6 +1,6 @@
 #include "../models/SearchEngine.h"
 #include<fstream>
-#define gotoxy gotoXY;
+#define gotoxy gotoXY
 using namespace std;
 void SearchEngine::run() {
     string rawText;
