@@ -4,7 +4,6 @@
 using namespace std;
 void SearchEngine::loadData() { // Load files, stopwords
 	ifstream fin;
-	using (fs=filesystem)
 }
 void SearchEngine::loadFile(TrieNode*& root, string filename) {
 	
