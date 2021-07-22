@@ -33,12 +33,13 @@ vector<int> TrieNode::search(string key, bool isTitle) {
 }
 vector<int> searchRange(TrieNode* node, double left, double right, string key) {
 	if (!node) return vector<int>();
+
+	vector<int> results;
 	if (node->isWord) {
 		double num = atof(key.c_str());
 		if (left < num && num < right)
-			return node->occurs;
+			results = combineOccurs(results, node->occurs);
 	}
-	vector<int> results;
 	for (int i = 0; i < 11; ++i) {
 		char c = i < 10 ? '0' + i : '.';
 		if (node->child[i]) results = combineOccurs(
@@ -67,8 +68,8 @@ vector<int> combineOccurs(vector<int> occur1, vector<int> occur2) {
 	if (occur2.size() == 0 || occur2[0] == -1) return occur1;
 	vector<int> occurs; int i = 0, j = 0;
 	while (i < occur1.size() || j < occur2.size()) {
-		while (j == occur2.size() || (i < occur1.size() && j < occur2.size() && occur1[i] < occur2[j])) occurs.push_back(occur1[i++]);
-		while (i == occur1.size() || (i < occur1.size() && j < occur2.size() && occur1[i] > occur2[j])) occurs.push_back(occur2[j++]);
+		while (i < occur1.size() && (j == occur2.size() || occur1[i] < occur2[j])) occurs.push_back(occur1[i++]);
+		while (j < occur2.size() && (i == occur1.size() || occur1[i] > occur2[j])) occurs.push_back(occur2[j++]);
 		while (i < occur1.size() && j < occur2.size() && occur1[i] == occur2[j]) occurs.push_back(occur1[i]), i++, j++;
 	}
 	return occurs;
