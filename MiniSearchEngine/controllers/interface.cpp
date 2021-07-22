@@ -1,6 +1,6 @@
 #include "../models/SearchEngine.h"
 #include<fstream>
-#define gotoxy gotoXY;
+#define gotoxy gotoXY
 using namespace std;
 void SearchEngine::run() {
     string rawText;
@@ -74,7 +74,7 @@ void SearchEngine::suggest(int coor, string data) {
 }
 vector<string> SearchEngine::getSuggestion(vector<string>history, string text) {
     vector<string> tem;
-    for (auto x : history) {
+    for (auto &x : history) {
         int t = x.find(text);
         if (t == 0) tem.push_back(x);
     }
@@ -198,8 +198,27 @@ void SearchEngine::readInput(vector<string>& history, string& text, int x, int y
         history.pop_back();
         fin.close();
     }
-    gotoxy(x, y);
+
     vector<string> t;
+    for (auto &x : getSuggestion(history, text)) {
+        t.push_back(x);
+    }
+    reverse(t.begin(), t.end());
+
+    //clear all suggestion
+    for (int i = 0;i < 10;i++) {
+        gotoXY(44, (i + 1) * 1 + 16);
+        cout << blank;
+    }
+
+    // suggestion (toi da 10 cai)
+    for (int i = 0; i < 10; i++) {
+        if (t.size() > i) {
+            suggest(i + 1, t[i]);
+        }
+    }
+
+    gotoxy(x, y);
     while (character = _getch(), (int)character != 13) {
         if ((int)character == 27) {
             stop = false;
@@ -238,38 +257,33 @@ void SearchEngine::readInput(vector<string>& history, string& text, int x, int y
             text += character;
             cout << character;
         }
-        t.erase(t.begin(), t.end());
 
-        for (auto x : getSuggestion(history, text)) {
+        t.erase(t.begin(), t.end());
+        for (auto &x : getSuggestion(history, text)) {
             t.push_back(x);
         }
         reverse(t.begin(), t.end());
+
         //clear all suggestion
-     /*   for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < 50; j++) {
-                gotoXY(44 + j, (i + 1) * 1 + 16);
-                cout << ' ';
-            }
-        }
-     */ 
         for(int i=0;i<10;i++){
-	    gotoXY(44,(i+1)*1+16);
-	    cout<<blank;
-	}
+	        gotoXY(44,(i+1)*1+16);
+	        cout<<blank;
+	    }
+
         // suggestion (toi da 10 cai)
         for (int i = 0; i < 10; i++) {
             if (t.size() > i) {
                 suggest(i + 1, t[i]);
             }
         }
-        //gotoxy(x, y);
 
+        //gotoxy(x, y);
         gotoXY(x + (int)text.size(), y);
     }
 
     //add to history
     bool check = true;
-    for (auto x : history) {
+    for (auto &x : history) {
         if (!text.compare(x)) {
             check = false;
         }
@@ -286,7 +300,7 @@ void SearchEngine::readInput(vector<string>& history, string& text, int x, int y
     while (!text.empty()) text.pop_back();
     t.erase(t.begin(), t.end());
 
-    for (auto x : getSuggestion(history, text)) {
+    for (auto &x : getSuggestion(history, text)) {
         t.push_back(x);
     }
     reverse(t.begin(), t.end());
@@ -307,14 +321,6 @@ void SearchEngine::readInput(vector<string>& history, string& text, int x, int y
 
 }
 
-
-
-
-/*
-set<string> SearchEngine::getWords(string text) {
-	return set<string>();
-}
-*/
 void SearchEngine::showResult(vector<result> results, string text, set<string> words) {
 
 }
