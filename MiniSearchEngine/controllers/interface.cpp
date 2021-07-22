@@ -258,7 +258,7 @@ void SearchEngine::readInput(vector<string>& history, string& text, int x, int y
         //clear all suggestion
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 50; j++) {
-                gotoxy(44 + j, (i + 1) * 1 + 16);
+                gotoXY(44 + j, (i + 1) * 1 + 16);
                 cout << ' ';
             }
         }
@@ -270,7 +270,7 @@ void SearchEngine::readInput(vector<string>& history, string& text, int x, int y
         }
         //gotoxy(x, y);
 
-        gotoxy(x + (int)text.size(), y);
+        gotoXY(x + (int)text.size(), y);
 
     }
 
