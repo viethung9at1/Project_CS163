@@ -11,7 +11,9 @@
 #include <algorithm>
 #include <sstream>
 
-using std::set, std::map, std::vector;
+using std::set;
+using std::map;
+using std::vector;
 
 struct result {
 	string filename;
