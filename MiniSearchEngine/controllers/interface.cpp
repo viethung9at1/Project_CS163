@@ -177,11 +177,12 @@ void SearchEngine::drawGoogle(int x, int y) {
 
 }
 void SearchEngine::readInput(vector<string>& history, string& text, int x, int y, bool& stop) {
-    char character;
+    string blank(40,' ');
+	char character;
     ifstream fin;
     ofstream fout;
     for (int i = 0; i < 50; i++) {
-        gotoxy(x + i, y);
+        gotoXY(x + i, y);
         cout << ' ';
     }
     while (!text.empty()) text.pop_back();
@@ -206,8 +207,8 @@ void SearchEngine::readInput(vector<string>& history, string& text, int x, int y
         if (character == '\b') {
             if (text.size() == 0) continue;
             text.pop_back();
-            gotoxy(x + (int)text.size(), y); cout << ' ';
-            gotoxy(x + (int)text.size(), y);
+            gotoXY(x + (int)text.size(), y); cout << ' ';
+            gotoXY(x + (int)text.size(), y);
 
         }
         // keyUp keyDown on suggestion
@@ -243,12 +244,17 @@ void SearchEngine::readInput(vector<string>& history, string& text, int x, int y
         }
         reverse(t.begin(), t.end());
         //clear all suggestion
-        for (int i = 0; i < 10; i++) {
+     /*   for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 50; j++) {
-                gotoxy(44 + j, (i + 1) * 1 + 16);
+                gotoXY(44 + j, (i + 1) * 1 + 16);
                 cout << ' ';
             }
         }
+     */ 
+        for(int i=0;i<10;i++){
+	    gotoXY(44,(i+1)*1+16);
+	    cout<<blank;
+	}
         // suggestion (toi da 10 cai)
         for (int i = 0; i < 10; i++) {
             if (t.size() > i) {
@@ -257,7 +263,7 @@ void SearchEngine::readInput(vector<string>& history, string& text, int x, int y
         }
         //gotoxy(x, y);
 
-        gotoxy(x + (int)text.size(), y);
+        gotoXY(x + (int)text.size(), y);
     }
 
     //add to history
@@ -284,12 +290,10 @@ void SearchEngine::readInput(vector<string>& history, string& text, int x, int y
     }
     reverse(t.begin(), t.end());
     //clear all suggestion
-    for (int i = 0; i < 10; i++) {
-        for (int j = 0; j < 50; j++) {
-            gotoxy(44 + j, (i + 1) * 1 + 16);
-            cout << ' ';
-        }
-    }
+    for(int i=0;i<10;i++){
+	    gotoXY(44,(i+1)*1+16);
+	    cout<<blank;
+	}
     // suggestion (toi da 10 cai)
     for (int i = 0; i < 10; i++) {
         if (t.size() > i) {
@@ -298,7 +302,7 @@ void SearchEngine::readInput(vector<string>& history, string& text, int x, int y
     }
     //gotoxy(x, y);
 
-    gotoxy(x + (int)text.size(), y);
+    gotoXY(x + (int)text.size(), y);
 
 }
 
