@@ -10,7 +10,8 @@
 #include <set>
 #include <algorithm>
 #include <sstream>
-using namespace std;
+
+using std::set, std::map, std::vector;
 
 struct result {
 	string filename;

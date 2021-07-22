@@ -1,5 +1,5 @@
 #include "../models/SearchEngine.h"
-
+using namespace std;
 result::result(string filename, vector<int> occurs) : filename(filename), occurs(occurs) {
 }
 bool result::operator< (result b) {
