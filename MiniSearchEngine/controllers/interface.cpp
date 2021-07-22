@@ -229,6 +229,7 @@ void SearchEngine::readInput(vector<string>& history, string& text, int x, int y
         for (auto x : getSuggestion(history, text)) {
             t.push_back(x);
         }
+        reverse(t.begin(), t.end());
         //clear all suggestion
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 30; j++) {
@@ -244,7 +245,33 @@ void SearchEngine::readInput(vector<string>& history, string& text, int x, int y
         }
         //gotoXY(x, y);
 
-        gotoXY(x + (int)text.size(), y);
+        //gotoXY(x + (int)text.size(), y);
+        //fix
+
+        while (!text.empty()) text.pop_back();
+        t.erase(t.begin(), t.end());
+
+        for (auto x : getSuggestion(history, text)) {
+            t.push_back(x);
+        }
+        reverse(t.begin(), t.end());
+        //clear all suggestion
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 50; j++) {
+                gotoxy(44 + j, (i + 1) * 1 + 16);
+                cout << ' ';
+            }
+        }
+        // suggestion (toi da 10 cai)
+        for (int i = 0; i < 10; i++) {
+            if (t.size() > i) {
+                suggest(i + 1, t[i]);
+            }
+        }
+        //gotoxy(x, y);
+
+        gotoxy(x + (int)text.size(), y);
+
     }
 
 
