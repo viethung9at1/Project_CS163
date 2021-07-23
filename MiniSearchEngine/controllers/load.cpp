@@ -5,9 +5,12 @@ using namespace std;
 void SearchEngine::loadData() { // Load files, stopwords
 	DIR* dir;
 	struct dirent* ent;
+	int numberOfFile = 0;
 	if ((dir = opendir("DataSearch")) != NULL) {
 		while ((ent = readdir(dir)) != NULL)
 		{
+			if (ent->d_name[0] == '.') continue;
+			if (++numberOfFile > 2000) break;
 			filenames.push_back(ent->d_name);
 
 			//load file
@@ -59,13 +62,14 @@ void SearchEngine::loadFile(TrieNode*& root, string filename) {
 	string inputAllLine;
 	while (!fin.eof()) {
 		getline(fin, inputAllLine);
+		
 		string s;
-		if (inputAllLine.compare("") == 0) {
-			for (int k = 0; k < inputAllLine.length(); i++) {
-				if (inputAllLine[i] != ' ')
-					s += inputAllLine[i];
-				else {
-					if (s[s.length() - 1] == '.') s.replace(s[s.length() - 1], 1, "");
+		if (true) {
+			for (int k = 0; k < inputAllLine.length(); k++) {
+				if (inputAllLine[k] != ' ') s += inputAllLine[k];
+				if (k == (int)inputAllLine.length() - 1 || inputAllLine[k] == ' ') {
+					if (s.empty()) continue;
+					if (s[s.length() - 1] == '.') s.erase(s.size() - 1);
 					root->insert(s, i++, line == 0 ? true : false);
 					s = "";
 				}
