@@ -61,4 +61,7 @@ public:
 	vector<int> fillMatch(vector<int> exactSearch, int numberOfWord);
 	vector<result> searchQuery(string text);
 	result searchQuery(string filename, string text);
+
+	void showRawResult(vector<result> results);
+	void printResult(result Result);
 };
