@@ -33,7 +33,7 @@ vector<int> SearchEngine::exactCombineOccurs(vector<int> occur1, vector<int> occ
 	}
 	return occurs;
 }
-vector<int> SearchEngine::exactMatch(vector<int> exactSearch, int numberOfWord) {
+vector<int> SearchEngine::fillMatch(vector<int> exactSearch, int numberOfWord) {
 	vector<int> occurs;
 	for (int occur : exactSearch)
 		for (int i = 0; i < numberOfWord; ++i)
@@ -60,68 +60,80 @@ result SearchEngine::searchQuery(string filename, string text) {
 	string word;
 	vector<int> results, search;
 	int totalOperator = 0;
+	int prePlaceHolds = 0;
 	bool lastSearch = true;
 	bool AND = false, OR = false;
 
 	while (query >> word) {
 		if (word == "AND") {
 			AND = lastSearch;
+			OR = false;
 		}
 		else if (word == "OR") {
 			OR = !lastSearch;
-			if (lastSearch) totalOperator += 1;
+			AND = false;
+			totalOperator += lastSearch;
 		}
 		else if (word[0] == '-') { // strictly check 
-			lastSearch = false;
 			word = word.substr(1);
 			search = data[filename]->search(word, false);
-			if (search.size() && search[0] != -1) continue;
-			totalOperator += 1 + AND + OR;
+
+			lastSearch = false;
+			if (!search.size() || search[0] == -1) {
+				totalOperator += 1 + AND + OR;
+				lastSearch = true;
+			}
 			AND = OR = false;
-			lastSearch = true;
 		}
 		else if (word.substr(0, 8) == "intitle:") { // strictly check
-			lastSearch = false;
 			word = word.substr(8);
 			search = data[filename]->search(word, true);
-			if (!search.size()) continue;
-			results = combineOccurs(results, search);
-			totalOperator += 1 + AND + OR;
+
+			if (search.size()) {
+				results = combineOccurs(results, search);
+				totalOperator += 1 + AND + OR;
+			}
+			lastSearch = search.size() > 0;
 			AND = OR = false;
-			lastSearch = true;
 		}
 		else if (word[0] == '+' || word[0] == '#') { // strictly check
-			lastSearch = false;
 			search = data[filename]->search(word, false);
-			if (!search.size()) continue;
-			results = combineOccurs(results, search);
-			totalOperator += 1 + AND + OR;
+
+			if (search.size()) {
+				results = combineOccurs(results, search);
+				totalOperator += 1 + AND + OR;
+			}
+			lastSearch = search.size() > 0;
 			AND = OR = false;
-			lastSearch = true;
 		}
 		else if (word.substr(0, 9) == "filetype:") { // strictly check
-			lastSearch = false;
 			word = word.substr(9);
-			if (filename.substr(filename.size() - word.size()) != word) continue;
-			totalOperator += 1 + AND + OR;
+
+			lastSearch = false;
+			if (filename.substr(filename.size() - word.size()) == word) {
+				totalOperator += 1 + AND + OR;
+				lastSearch = true;
+			}
 			AND = OR = false;
-			lastSearch = true;
 		}
 		else if (('0' <= word[0] && word[0] <= '9') || word[0] == '$') { // strictly check
-			lastSearch = false;
 			string left, right;
-			if (!getRange(word, left, right)) continue;
+			if (!getRange(word, left, right)) {
+				lastSearch = AND = OR = false;
+				continue;
+			}
 			search = left[0] != '$' ?
 				searchRange(data[filename], atof(left.c_str()), atof(right.c_str())) :
 				searchRange(data[filename]->child[convert('$')], atof(left.c_str()), atof(right.c_str()));
-			if (!search.size()) continue;
-			results = combineOccurs(results, search);
-			totalOperator += 1 + AND + OR;
+
+			if (search.size()) {
+				results = combineOccurs(results, search);
+				totalOperator += 1 + AND + OR;
+			}
+			lastSearch = search.size() > 0;
 			AND = OR = false;
-			lastSearch = true;
 		}
 		else if (word[0] == '\"') { // strictly check
-			lastSearch = false;
 			vector<int> exactSearch; 
 			int numberOfWord = 0;
 			do {
@@ -134,52 +146,59 @@ result SearchEngine::searchQuery(string filename, string text) {
 					search = data[filename]->search(word, false);
 					exactSearch = exactCombineOccurs(exactSearch, search);
 				}
-				if (!exactSearch.size()) break;
-
 				numberOfWord += 1;
-				if (word.back() == '\"') break;
+				if (word.back() == '\"' || !exactSearch.size()) break;
 			} while (query >> word);
 
-			if (!exactSearch.size()) continue;
-			search = exactMatch(exactSearch, numberOfWord);
-			results = combineOccurs(results, search);
-			totalOperator += 2 + AND + OR;
+			if (exactSearch.size()) {
+				search = fillMatch(exactSearch, numberOfWord);
+				results = combineOccurs(results, search);
+				totalOperator += 2 + AND + OR;
+			}
+			lastSearch = exactSearch.size() > 0;
 			AND = OR = false;
-			lastSearch = true;
 		}
 		else if (word == "*") { // non-strictly check
+			if (!results.size()) {
+				prePlaceHolds += 1;
+				continue;
+			}
+
 			vector<int> placeHolds = results;
 			for (int& occur : placeHolds) occur += 1;
 			if (!placeHolds.empty() && placeHolds.back() == fileLength[filename]) 
 				placeHolds.pop_back();
+
 			results = combineOccurs(results, placeHolds);
 			totalOperator += AND + OR;
-			AND = OR = false;
 			lastSearch = true;
+			AND = OR = false;
 		}
 		else if (word[0] == '~') { // non-strictly check
-			bool found = false;
+			lastSearch = false;
 			word = word.substr(1);
-			if (isStopWord(word)) continue;
 			if (!synoMap.count(word)) continue;
 			for (string syno : synoList[synoMap[word]]) {
 				search = data[filename]->search(syno, false);
-				if (search.size()) found = true;
 				results = combineOccurs(results, search);
+				lastSearch |= search.size() > 0;
 			}
-			if (found) totalOperator += AND + OR;
+
+			if (lastSearch) totalOperator += AND + OR;
 			AND = OR = false;
-			lastSearch = found;
 		}
 		else { // non-strictly check
 			if (isStopWord(word)) continue;
 			search = data[filename]->search(word, false);
+
 			results = combineOccurs(results, search);
 			if (search.size()) totalOperator += AND + OR;
-			AND = OR = false;
 			lastSearch = search.size() > 0;
+			AND = OR = false;
 		}
 	}
+
+	if (prePlaceHolds > 0) results = fillMatch(results, prePlaceHolds);
 	
 	return result(filename, results, totalOperator);
 }
