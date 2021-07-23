@@ -22,12 +22,12 @@ void SearchEngine::loadData() { // Load files, stopwords
 		while (!fin.eof()) {
 			string s, addToSyn = "";
 			vector<string> syn;
-			getline(fin,s);
+			getline(fin, s);
 			for (int i = 0; i < s.length(); i++) {
-				if(s[i]!=' ') addToSyn += s[i];
-				else {
+				if (s[i] != ' ') addToSyn += s[i];
+				if (i == s.length() - 1 || s[i] == ' ') {
 					syn.push_back(addToSyn);
-					synoMap[syn[0]]++;
+					synoMap[syn[0]]=synoList.size();
 					addToSyn = "";
 				}
 			}
@@ -49,5 +49,24 @@ void SearchEngine::loadData() { // Load files, stopwords
 }
 void SearchEngine::loadFile(TrieNode*& root, string filename) {
 	root = new TrieNode();
-
+	ifstream fin;
+	fin.open("DataSearch\\" + filename);
+	if (!fin) {
+		cout << "Cannot open file " + filename << endl;
+		return;
+	}
+	int i = 0;
+	string s;
+	while (!fin.eof()&&s!="") {
+		fin >> s;
+		if (s[s.length() - 1] == '.' || s[s.length() - 1] == ',')
+			s.replace(s.length() - 1, 1, "");
+		if (s.length() > 2 && s.substr(0, 1) == "\"") 
+			s.replace(0, 1, "");
+		if (s.length() > 2 && s.substr(s.length() - 1, 1) == "\"") 
+			s.replace(s.length() - 1, 1, "");
+		root->insert(s, i++, i == 0 ? true : false);
+	}
+	fileLength[filename] = i;
+	fin.close();
 }
