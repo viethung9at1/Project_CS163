@@ -1,8 +1,10 @@
 #include "../models/SearchEngine.h"
+#include <fstream>
 using namespace std;
+
 result::result(string filename, vector<int> occurs, int totalOperator) : filename(filename), occurs(occurs) {
 	point = occurs.size() + totalOperator * 100000;
-	for (int i = 0; i < occurs.size() - 1; ++i)
+	for (int i = 0; i + 1  < occurs.size(); ++i)
 		point += (occurs[i] + 1 == occurs[i + 1]);
 }
 bool result::operator< (result b) {
@@ -23,6 +25,8 @@ bool SearchEngine::getRange(string word, string left, string right) {
 		if (left[0] != '$' && right[0] == '$') left = '$' + left;
 	}
 	else left = right = word;
+
+	return true;
 }
 vector<int> SearchEngine::exactCombineOccurs(vector<int> occur1, vector<int> occur2) {
 	if (occur1.empty() || occur2.empty()) return occur2;
@@ -50,7 +54,7 @@ vector<result> SearchEngine::searchQuery(string text) {
 		while (i < results.size() && results[i] < search) i = i + 1;
 
 		results.push_back(search);
-		for (int j = results.size() - 1; j > i; --j) swap(results[j], results[j - 1]);
+		for (int j = (int)results.size() - 1; j > i; --j) swap(results[j], results[j - 1]);
 		if (results.size() > 5) results.pop_back();
 	}
 	return results;
@@ -201,4 +205,50 @@ result SearchEngine::searchQuery(string filename, string text) {
 	if (prePlaceHolds > 0) results = fillMatch(results, prePlaceHolds);
 	
 	return result(filename, results, totalOperator);
+}
+void SearchEngine::showRawResult(vector<result> results) {
+	system("CLS");
+	for (result x : results) printResult(x);
+	while (_getch() != 27);
+}
+void SearchEngine::printResult(result Result) {
+	string filename = Result.filename;
+	vector<int> occurs = Result.occurs;
+
+	cout << filename << ' ' << occurs.size() << '\n';
+
+	ifstream fin;
+	fin.open("DataSearch\\" + filename);
+	if (!fin) {
+		cout << '\n';
+		// cout << "Cannot open file " + filename << endl;
+		return;
+	}
+	int i = 0, iOccur = 0;
+	string inputAllLine;
+	while (!fin.eof()) {
+		getline(fin, inputAllLine);
+		string s;
+		if (true) {
+			for (int k = 0; k < inputAllLine.length(); k++) {
+				if (inputAllLine[k] != ' ') s += inputAllLine[k];
+				if (k == (int)inputAllLine.length() - 1 || inputAllLine[k] == ' ') {
+					if (s.empty()) continue;
+					// if (s[s.length() - 1] == '.') s.erase(s.size() - 1);
+					// root->insert(s, i++, line == 0 ? true : false);
+					if (iOccur < occurs.size() && occurs[iOccur] == i) {
+						TextColor(ColorCode_Yellow);
+						cout << s << ' ';
+						TextColor(default_ColorCode);
+						iOccur += 1;
+					}
+					else cout << s << ' ';
+					
+					s = ""; i = i + 1;
+				}
+			}
+		}
+		cout << '\n';
+	}
+	cout << '\n';
 }

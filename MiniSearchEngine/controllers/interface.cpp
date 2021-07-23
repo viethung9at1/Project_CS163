@@ -3,32 +3,37 @@
 #define gotoxy gotoXY
 using namespace std;
 void SearchEngine::run() {
-    string rawText;
-
-    vector<string> history;
-    int x = 20;
-    int y = 2;
-    int a = 20;
-    int b = 1;
-
-    //coordinate for search and suggestion
-    int x1 = 30;
-    int y1 = 15;
-
-    // coordinate for read input
-    int a1 = 44;
-    int b1 = 15;
-
-    drawFrame(a, b);
-    draw(x1, y1);
-    drawGoogle(x, y);
     bool stop = true;
     while (stop) {
-        readInput(history, rawText, a1, b1, stop);
+        system("CLS");
 
+        string rawText;
+
+        vector<string> history;
+        int x = 20;
+        int y = 2;
+        int a = 20;
+        int b = 1;
+
+        //coordinate for search and suggestion
+        int x1 = 30;
+        int y1 = 15;
+
+        // coordinate for read input
+        int a1 = 44;
+        int b1 = 15;
+
+        drawFrame(a, b);
+        draw(x1, y1);
+        drawGoogle(x, y);
+
+        readInput(history, rawText, a1, b1, stop);
+        if (!stop) break;
+
+        vector<result> results = searchQuery(rawText);
+
+        showRawResult(results);
     }
-    
-    gotoXY(50, 50);
 }
 void SearchEngine::drawFrame(int a, int b) {
 
@@ -295,6 +300,9 @@ void SearchEngine::readInput(vector<string>& history, string& text, int x, int y
         fout << text << endl;
         fout.close();
         history.push_back(text);
+    }
+    else {
+
     }
 }
 
