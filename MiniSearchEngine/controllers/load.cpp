@@ -27,7 +27,7 @@ void SearchEngine::loadData() { // Load files, stopwords
 				if (s[i] != ' ') addToSyn += s[i];
 				if (i == s.length() - 1 || s[i] == ' ') {
 					syn.push_back(addToSyn);
-					synoMap[syn[0]]=synoList.size();
+					synoMap[addToSyn] = synoList.size();
 					addToSyn = "";
 				}
 			}
@@ -55,18 +55,22 @@ void SearchEngine::loadFile(TrieNode*& root, string filename) {
 		cout << "Cannot open file " + filename << endl;
 		return;
 	}
-	int i = 0;
-	string s;
-	while (!fin.eof()&&s!="") {
-		fin >> s;
-		if (s[s.length() - 1] == '.' || s[s.length() - 1] == ',')
-			s.replace(s.length() - 1, 1, "");
-		if (s.length() > 2 && s.substr(0, 1) == "\"") 
-			s.replace(0, 1, "");
-		if (s.length() > 2 && s.substr(s.length() - 1, 1) == "\"") 
-			s.replace(s.length() - 1, 1, "");
-		root->insert(s, i++, i == 0 ? true : false);
+	int i = 0, line = 0;
+	string inputAllLine;
+	while (!fin.eof()) {
+		getline(fin, inputAllLine);
+		string s;
+		if (inputAllLine.compare("") == 0) {
+			for (int k = 0; k < inputAllLine.length(); i++) {
+				if (inputAllLine[i] != ' ')
+					s += inputAllLine[i];
+				else {
+					if (s[s.length() - 1] == '.') s.replace(s[s.length() - 1], 1, "");
+					root->insert(s, i++, line == 0 ? true : false);
+					s = "";
+				}
+			}
+			line++;
+		}
 	}
-	fileLength[filename] = i;
-	fin.close();
 }
