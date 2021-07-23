@@ -58,7 +58,7 @@ public:
 	bool isStopWord(string key);
 	bool getRange(string word, string left, string right);
 	vector<int> exactCombineOccurs(vector<int> occur1, vector<int> occur2);
-	vector<int> exactMatch(vector<int> exactSearch, int numberOfWord);
+	vector<int> fillMatch(vector<int> exactSearch, int numberOfWord);
 	vector<result> searchQuery(string text);
 	result searchQuery(string filename, string text);
 };
