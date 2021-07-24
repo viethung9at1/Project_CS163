@@ -302,7 +302,26 @@ void SearchEngine::readInput(vector<string>& history, string& text, int x, int y
         history.push_back(text);
     }
     else {
+        fout.open("history.txt");
+        //fout << text << endl;
+        tem2.erase(tem2.begin(), tem2.end());
+        for (auto& x : history) tem2.push_back(x);
+        vector<string> ::iterator it = tem2.begin();
 
+        for (int i = 0; i < tem2.size(); i++) {
+            if (!tem2[i].compare(text)) {
+                advance(it, i);
+                tem2.erase(it, it + 1);
+                break;
+            }
+        }
+        for (auto& x : tem2) fout << x << endl;
+        fout << text << endl;
+        history.erase(history.begin(), history.end());
+
+        for (auto& x : tem2) history.push_back(x);
+        history.push_back(text);
+        fout.close();
     }
 }
 
