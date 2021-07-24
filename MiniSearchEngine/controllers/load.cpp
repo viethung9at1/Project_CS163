@@ -6,9 +6,8 @@ void SearchEngine::loadData() { // Load files, stopwords
 	DIR* dir;
 	struct dirent* ent;
 	int numberOfFile = 0;
+	cout << "Loading.....";
 	if ((dir = opendir("DataSearch")) != NULL) {
-		clrscr();
-		cout << "Loading.....";
 		while ((ent = readdir(dir)) != NULL)
 		{
 			if (ent->d_name[0] == '.') continue;
