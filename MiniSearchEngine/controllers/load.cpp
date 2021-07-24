@@ -6,13 +6,18 @@ void SearchEngine::loadData() { // Load files, stopwords
 	DIR* dir;
 	struct dirent* ent;
 	int numberOfFile = 0;
-	cout << "Loading.....";
+	cout << "Loading - [" << string(100, '=') << ']';
 	if ((dir = opendir("DataSearch")) != NULL) {
 		while ((ent = readdir(dir)) != NULL)
 		{
 			if (ent->d_name[0] == '.') continue;
 			if (++numberOfFile > 2000) break;
 			filenames.push_back(ent->d_name);
+
+			if (numberOfFile % 20 == 0) {
+				gotoXY(10 + numberOfFile / 20, 0);
+				cout << (char)254;
+			}
 
 			//load file
 			data[ent->d_name] = NULL;
