@@ -62,19 +62,17 @@ void SearchEngine::loadFile(TrieNode*& root, string filename) {
 	string inputAllLine;
 	while (!fin.eof()) {
 		getline(fin, inputAllLine);
-		
+
 		string s;
-		if (true) {
-			for (int k = 0; k < inputAllLine.length(); k++) {
-				if (inputAllLine[k] != ' ') s += inputAllLine[k];
-				if (k == (int)inputAllLine.length() - 1 || inputAllLine[k] == ' ') {
-					if (s.empty()) continue;
-					if (s[s.length() - 1] == '.') s.erase(s.size() - 1);
-					root->insert(s, i++, line == 0 ? true : false);
-					s = "";
-				}
+		for (int k = 0; k < inputAllLine.length(); k++) {
+			if (inputAllLine[k] != ' ') s += inputAllLine[k];
+			if (k == (int)inputAllLine.length() - 1 || inputAllLine[k] == ' ') {
+				if (s.empty()) continue;
+				if (s[s.length() - 1] == '.') s.erase(s.size() - 1);
+				root->insert(s, i++, line == 0 ? true : false);
+				s = "";
 			}
-			line++;
 		}
+		line++;
 	}
 }
