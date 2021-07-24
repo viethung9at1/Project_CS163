@@ -304,7 +304,7 @@ void SearchEngine::readInput(vector<string>& history, string& text, int x, int y
     else {
         fout.open("history.txt");
         //fout << text << endl;
-        tem2.erase(tem2.begin(), tem2.end());
+        vector<string> tem2;
         for (auto& x : history) tem2.push_back(x);
         vector<string> ::iterator it = tem2.begin();
 
