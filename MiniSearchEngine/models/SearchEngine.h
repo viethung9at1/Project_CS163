@@ -1,6 +1,5 @@
 #ifndef SEARCH_ENGINE
 #define SEARCH_ENGINE
-#endif
 
 #include "Trie.h"
 #include "console.h"
@@ -68,3 +67,5 @@ public:
 	void printDescription(int x, int y, int maxLength, result Result);
 	void printContent(result Result);
 };
+
+#endif
