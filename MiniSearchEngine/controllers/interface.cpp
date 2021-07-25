@@ -32,7 +32,7 @@ void SearchEngine::run() {
 
         vector<result> results = searchQuery(rawText);
 
-        showRawResult(results);
+        showResult(rawText, results);
     }
 }
 void SearchEngine::drawFrame(int a, int b) {
