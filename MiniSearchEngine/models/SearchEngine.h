@@ -55,13 +55,16 @@ public:
 	vector<string> getContent(string filename, int maxLength);
 
 	// engine.cpp
+	string upperCase(string key);
 	bool isStopWord(string key);
-	bool getRange(string word, string left, string right);
+	bool getRange(string word, string& left, string& right);
 	vector<int> exactCombineOccurs(vector<int> occur1, vector<int> occur2);
 	vector<int> fillMatch(vector<int> exactSearch, int numberOfWord);
 	vector<result> searchQuery(string text);
 	result searchQuery(string filename, string text);
 
-	void showRawResult(vector<result> results);
-	void printResult(result Result);
+	void showResult(string text, vector<result> results);
+	void showResultList(int x, int y, vector<result> results);
+	void printDescription(int x, int y, int maxLength, result Result);
+	void printContent(result Result);
 };
