@@ -367,7 +367,7 @@ void SearchEngine::printContent(result Result) {
 		return;
 	}
 
-	gotoXY(50, 0); cout << (char)201 << filename << (char)187 << '\n';
+	gotoXY(50, 0); cout << (char)201 << filename << (char)187 << '\n' << '\n';
 	
 	while (!fin.eof()) {
 		getline(fin, inputAllLine);
