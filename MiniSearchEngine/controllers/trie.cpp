@@ -37,7 +37,7 @@ vector<int> searchRange(TrieNode* node, double left, double right, string key) {
 	vector<int> results;
 	if (node->isWord) {
 		double num = atof(key.c_str());
-		if (left < num && num < right)
+		if (left <= num && num <= right)
 			results = combineOccurs(results, node->occurs);
 	}
 	for (int i = 0; i < 11; ++i) {

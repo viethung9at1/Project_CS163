@@ -81,4 +81,6 @@ void SearchEngine::loadFile(TrieNode*& root, string filename) {
 		}
 		line++;
 	}
+
+	fileLength[filename] = i;
 }
