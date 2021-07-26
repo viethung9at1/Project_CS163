@@ -46,7 +46,7 @@ public:
 
 	vector<string> getSuggestion(vector<string>history, string text);// Online History
 	void readInput(vector<string>& history, string& text, int x, int y, bool& stop);
-	void drawFrame(int a, int b);
+	void drawFrame(int a, int b,int w);
 	void draw(int x, int y);
 
 	// engine.cpp
