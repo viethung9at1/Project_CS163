@@ -324,15 +324,3 @@ void SearchEngine::readInput(vector<string>& history, string& text, int x, int y
         fout.close();
     }
 }
-
-void SearchEngine::showResult(vector<result> results, string text, set<string> words) {
-
-}
-vector<string> SearchEngine::getReview(string filename, set<string> words, int maxLength) {
-    return vector<string>();
-}
-vector<string> SearchEngine::getContent(string filename, int maxLength) {
-    return vector<string>();
-}
-
-

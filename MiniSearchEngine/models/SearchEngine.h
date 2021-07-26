@@ -49,10 +49,6 @@ public:
 	void drawFrame(int a, int b);
 	void draw(int x, int y);
 
-	void showResult(vector<result> results, string text, set<string> words);
-	vector<string> getReview(string filename, set<string> words, int maxLength);
-	vector<string> getContent(string filename, int maxLength);
-
 	// engine.cpp
 	string upperCase(string key);
 	bool isStopWord(string key);
