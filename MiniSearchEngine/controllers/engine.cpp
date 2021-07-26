@@ -226,11 +226,11 @@ void SearchEngine::showResult(string text, vector<result> results) {
 		string rawText;
 
 		vector<string> history;
-		int x = 20;
+		int x = 35;
 		int y = 2;
-		int a = 20;
+		int a = 33;
 		int b = 1;
-
+		int w1 = 51;
 		//coordinate for search and suggestion
 		int x1 = 30;
 		int y1 = 15;
@@ -239,7 +239,7 @@ void SearchEngine::showResult(string text, vector<result> results) {
 		int a1 = 44;
 		int b1 = 15;
 
-		drawFrame(a, b);
+		drawFrame(a, b,w1);
 		drawGoogle(x, y);
 
 		// readInput(history, rawText, a1, b1, stop);

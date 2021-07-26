@@ -1,6 +1,25 @@
 #include "../models/SearchEngine.h"
 #include<fstream>
 #define gotoxy gotoXY
+#define TOP_LEFT 201
+#define TOP_RIGHT 187
+#define BOT_LEFT 200
+#define BOT_RIGHT 188
+#define VERTICAL 186
+#define HORIZONTAL 205
+#define SPACE 32
+
+#define KEY_UP 72
+#define KEY_DOWN 80
+#define KEY_LEFT 75
+#define KEY_RIGHT 77
+
+#define TOP_LEFT_lite 218
+#define TOP_RIGHT_lite 191
+#define BOT_LEFT_lite 192
+#define BOT_RIGHT_lite 217
+#define VERTICAL_lite 179
+#define HORIZONTAL_lite 196
 using namespace std;
 void SearchEngine::run() {
     bool stop = true;
@@ -10,11 +29,11 @@ void SearchEngine::run() {
         string rawText;
 
         vector<string> history;
-        int x = 20;
+        int x = 35;
         int y = 2;
-        int a = 20;
+        int a = 33;
         int b = 1;
-
+        int w1 = 51;
         //coordinate for search and suggestion
         int x1 = 30;
         int y1 = 15;
@@ -23,7 +42,7 @@ void SearchEngine::run() {
         int a1 = 44;
         int b1 = 15;
 
-        drawFrame(a, b);
+        drawFrame(a, b,w1);
         draw(x1, y1);
         drawGoogle(x, y);
 
@@ -35,33 +54,52 @@ void SearchEngine::run() {
         showResult(rawText, results);
     }
 }
-void SearchEngine::drawFrame(int a, int b) {
+void SearchEngine::drawGoogle(int x, int y) {
 
-    gotoXY(a, b);
-    cout << (char)196 << (char)196 << (char)196 << (char)196 << (char)196 << (char)196 << (char)196 << (char)196 << (char)196 << (char)196 << (char)196 << (char)196 << (char)196 << (char)196;
-    cout << (char)196 << (char)196 << (char)196 << (char)196 << (char)196 << (char)196 << (char)196 << (char)196 << (char)196 << (char)196 << (char)196 << (char)196 << (char)196 << (char)196;
-    cout << (char)196 << (char)196 << (char)196 << (char)196 << (char)196 << (char)196 << (char)196 << (char)196 << (char)196 << (char)196 << (char)196 << (char)196 << (char)196 << (char)196;
-    cout << (char)196 << (char)196 << (char)196 << (char)196 << (char)196 << (char)196 << (char)196 << (char)196 << (char)196 << (char)196 << (char)196 << (char)196 << (char)196 << (char)196;
-    cout << (char)196 << (char)196 << (char)196 << (char)196 << (char)196 << (char)196 << (char)196 << (char)196 << (char)196 << (char)196 << (char)196 << (char)196 << (char)196 << (char)196;
-    cout << (char)196 << (char)196 << (char)196 << (char)196 << (char)196;
-    gotoXY(a, b + 8);
-    cout << (char)196 << (char)196 << (char)196 << (char)196 << (char)196 << (char)196 << (char)196 << (char)196 << (char)196 << (char)196 << (char)196 << (char)196 << (char)196 << (char)196;
-    cout << (char)196 << (char)196 << (char)196 << (char)196 << (char)196 << (char)196 << (char)196 << (char)196 << (char)196 << (char)196 << (char)196 << (char)196 << (char)196 << (char)196;
-    cout << (char)196 << (char)196 << (char)196 << (char)196 << (char)196 << (char)196 << (char)196 << (char)196 << (char)196 << (char)196 << (char)196 << (char)196 << (char)196 << (char)196;
-    cout << (char)196 << (char)196 << (char)196 << (char)196 << (char)196 << (char)196 << (char)196 << (char)196 << (char)196 << (char)196 << (char)196 << (char)196 << (char)196 << (char)196;
-    cout << (char)196 << (char)196 << (char)196 << (char)196 << (char)196 << (char)196 << (char)196 << (char)196 << (char)196 << (char)196 << (char)196 << (char)196 << (char)196 << (char)196;
-    cout << (char)196 << (char)196 << (char)196 << (char)196 << (char)196;
+    ifstream fin;
+    vector<string> v;
+    fin.open("google.txt");
+    string tem;
+    for (int i = 0; i < 6; i++) {
+        getline(fin, tem);
+        v.push_back(tem);
+    }
+    for (int i = 0; i < 6; i++) {
+        gotoxy(x, y + i * 1);
+        cout << v[i];
+    }
+}
+void SearchEngine::drawFrame(int a, int b, int w) {
+
+    gotoxy(a, b);
+    int width = w;
+    int tem = w;
+    cout << (char)TOP_LEFT;
+    while (width > 0) {
+        cout << (char)HORIZONTAL;
+        width--;
+    }
+    cout << (char)TOP_RIGHT;
 
     for (int i = 1; i < 8; i++) {
-        gotoXY(a - 1, b + i);
-        cout << (char)179;
+        gotoxy(a, b + i);
+        cout << (char)VERTICAL;
+    }
+    gotoxy(a, b + 7);
+    cout << (char)BOT_LEFT;
+    while (tem > 0) {
+        cout << (char)HORIZONTAL;
+        tem--;
     }
     for (int i = 1; i < 8; i++) {
-        gotoXY(a + 75, b + i);
-        cout << (char)179;
+        gotoxy(a + w + 1, b + i);
+        cout << (char)VERTICAL;
     }
+    gotoxy(a + w + 1, b + 7);
+    cout << (char)BOT_RIGHT;
 
 }
+
 // search and suggestion frames
 void SearchEngine::draw(int x, int y) {
     gotoXY(x, y);
@@ -85,103 +123,7 @@ vector<string> SearchEngine::getSuggestion(vector<string>history, string text) {
     }
     return tem;
 }
-void SearchEngine::drawGoogle(int x, int y) {
 
-    //DRAW GOOGLE
-
-    gotoXY(5 + x, 1 + y);
-    cout << (char)219 << (char)219;
-    cout << (char)219 << (char)219 << (char)219;
-
-    gotoXY(4 + x, 2 + y);
-    cout << (char)219 << (char)219;
-    gotoXY(3 + x, y + 3);
-    cout << (char)219 << (char)219 << char(219);
-    gotoXY(4 + x, 2 + y + 2);
-    cout << (char)219 << (char)219;
-    gotoXY(5 + x, 1 + y + 4);
-    cout << (char)219 << (char)219 << (char)219 << (char)219;
-    gotoXY(x + 9, y + 4);
-    cout << (char)219 << (char)219;
-    gotoXY(x + 8, y + 3);
-    cout << (char)219 << (char)219;
-    //chu G
-    gotoXY(x + 16, y + 1);
-    cout << (char)219 << (char)219 << (char)219 << (char)219 << (char)219;
-    gotoXY(x + 14, y + 2);
-    cout << (char)219 << (char)219;
-    gotoXY(x + 14, y + 3);
-    cout << (char)219 << (char)219;
-    gotoXY(x + 14, y + 4);
-    cout << (char)219 << (char)219;
-    gotoXY(x + 16, y + 5);
-    cout << (char)219 << (char)219 << (char)219 << (char)219 << (char)219;
-    gotoXY(x + 21, y + 2);
-    cout << (char)219 << (char)219;
-    gotoXY(x + 21, y + 3);
-    cout << (char)219 << (char)219;
-    gotoXY(x + 21, y + 4);
-    cout << (char)219 << (char)219;
-    //chu O
-    gotoXY(x + 32 - 3, y + 1);
-    cout << (char)219 << (char)219 << (char)219 << (char)219 << (char)219;
-    gotoXY(x + 30 - 3, y + 2);
-    cout << (char)219 << (char)219;
-    gotoXY(x + 30 - 3, y + 3);
-    cout << (char)219 << (char)219;
-    gotoXY(x + 30 - 3, y + 4);
-    cout << (char)219 << (char)219;
-    gotoXY(x + 32 - 3, y + 5);
-    cout << (char)219 << (char)219 << (char)219 << (char)219 << (char)219;
-    gotoXY(x + 37 - 3, y + 2);
-    cout << (char)219 << (char)219;
-    gotoXY(x + 37 - 3, y + 3);
-    cout << (char)219 << (char)219;
-    gotoXY(x + 37 - 3, y + 4);
-    cout << (char)219 << (char)219;
-    //chu O
-    gotoXY(44 + x - 2, 1 + y);
-    cout << (char)219 << (char)219;
-    cout << (char)219 << (char)219 << (char)219;
-    gotoXY(43 + x - 2, 2 + y);
-    cout << (char)219 << (char)219;
-    gotoXY(42 + x - 2, y + 3);
-    cout << (char)219 << (char)219 << (char)219;
-    gotoXY(43 + x - 2, 2 + y + 2);
-    cout << (char)219 << (char)219;
-    gotoXY(44 + x - 2, 1 + y + 4);
-    cout << (char)219 << (char)219 << (char)219 << (char)219;
-    gotoXY(x + 48 - 2, y + 4);
-    cout << (char)219 << (char)219;
-    gotoXY(x + 47 - 2, y + 3);
-    cout << (char)219 << (char)219;
-    //chu G
-    gotoXY(x + 52, y + 1);
-    cout << (char)219 << (char)219;
-    gotoXY(x + 52, y + 2);
-    cout << (char)219 << (char)219;
-    gotoXY(x + 52, y + 3);
-    cout << (char)219 << (char)219;
-    gotoXY(x + 52, y + 4);
-    cout << (char)219 << (char)219;
-    gotoXY(x + 52, y + 5);
-    cout << (char)219 << (char)219 << (char)219 << (char)219 << (char)219 << (char)219 << (char)219;
-    //chu L
-    gotoXY(x + 64, y + 1);
-    cout << (char)219 << (char)219 << (char)219 << (char)219 << (char)219 << (char)219 << (char)219;
-    gotoXY(x + 64, y + 2);
-    cout << (char)219 << (char)219;
-    gotoXY(x + 64, y + 3);
-    cout << (char)219 << (char)219 << (char)219 << (char)219 << (char)219 << (char)219 << (char)219;
-    gotoXY(x + 64, y + 4);
-    cout << (char)219 << (char)219;
-    gotoXY(x + 64, y + 5);
-    cout << (char)219 << (char)219 << (char)219 << (char)219 << (char)219 << (char)219 << (char)219;
-    //chu E
-
-    gotoXY(x + 10, y + 10);
-
-}
 void SearchEngine::readInput(vector<string>& history, string& text, int x, int y, bool& stop) {
     string blank(40,' ');
 	char character;
