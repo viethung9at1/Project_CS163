@@ -219,6 +219,7 @@ result SearchEngine::searchQuery(string filename, string text) {
 }
 void SearchEngine::showResult(string text, vector<result> results) {
 	bool stop = true;
+	int option = 0;
 	while (stop) {
 		system("CLS");
 
@@ -248,8 +249,7 @@ void SearchEngine::showResult(string text, vector<result> results) {
 		int _x = 21, _y = 15;
 		showResultList(_x, _y, results);
 		
-		int option = 0;
-		gotoXY(_x - 2, _y); cout << (char)26;
+		gotoXY(_x - 2, _y + option * 5); cout << (char)26;
 		gotoXY(a1 + text.size(), b1 - 3);
 		while (char key = _getch()) {
 			if (key == -32) {
