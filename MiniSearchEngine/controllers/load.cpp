@@ -1,6 +1,7 @@
 #include "../models/SearchEngine.h"
+#include "../models/dirent.h"
 #include<fstream>
-#include<dirent.h>
+//#include<dirent.h>
 using namespace std;
 void SearchEngine::loadData() { // Load files, stopwords
 	DIR* dir;
