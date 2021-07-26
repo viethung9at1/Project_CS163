@@ -36,11 +36,11 @@ void SearchEngine::run() {
         int w1 = 51;
         //coordinate for search and suggestion
         int x1 = 30;
-        int y1 = 15;
+        int y1 = 12;
 
         // coordinate for read input
         int a1 = 44;
-        int b1 = 15;
+        int b1 = 12;
 
         drawFrame(a, b,w1);
         draw(x1, y1);
@@ -102,15 +102,50 @@ void SearchEngine::drawFrame(int a, int b, int w) {
 
 // search and suggestion frames
 void SearchEngine::draw(int x, int y) {
+    int w = 11, t = 11;
+    gotoxy(x - 1, y); cout << (char)VERTICAL_lite;
+    gotoxy(x + w, y); cout <<(char) VERTICAL_lite;
+    gotoxy(x - 1, y - 1);
+    cout <<(char)TOP_LEFT_lite;
+    
+    while (w > 0) {
+        cout << (char)HORIZONTAL_lite;
+        w--;
+    }
+    cout << (char)TOP_RIGHT_lite;
+    gotoxy(x - 1, y + 1);
+    cout << (char)BOT_LEFT_lite;
+    while (t > 0) {
+        cout << (char)HORIZONTAL_lite;
+        t--;
+    }
+    cout << (char)BOT_RIGHT_lite;
     gotoXY(x, y);
-    cout << "SEARCH      :";
-
-    gotoXY(x, y + 2);
-    cout << "SUGGESTION  :";
+    cout << "   SEARCH";
+    w = 11;
+    t = 11;
+    gotoxy(x - 1, y+4); cout << (char)VERTICAL_lite;
+    gotoxy(x + w, y+4); cout << (char)VERTICAL_lite;
+    gotoxy(x - 1, y +3);
+    cout << (char)TOP_LEFT_lite;
+    while (w > 0) {
+        cout << (char)HORIZONTAL_lite;
+        w--;
+    }
+    cout << (char)TOP_RIGHT_lite;
+    gotoxy(x - 1, y + 5);
+    cout << (char)BOT_LEFT_lite;
+    while (t > 0) {
+        cout << (char)HORIZONTAL_lite;
+        t--;
+    }
+    cout << (char)BOT_RIGHT_lite;
+    gotoXY(x, y + 4);
+    cout << "SUGGESTION";
 }
 void SearchEngine::suggest(int coor, string data) {
     int a = 44;
-    int b = 16;
+    int b =15;
 
     gotoXY(a, b + coor * 1);
     cout << data;
@@ -155,7 +190,7 @@ void SearchEngine::readInput(vector<string>& history, string& text, int x, int y
 
     //clear all suggestion
     for (int i = 0;i < 10;i++) {
-        gotoXY(44, (i + 1) * 1 + 16);
+        gotoXY(44, (i + 1) * 1 + 15);
         cout << blank;
     }
 
@@ -214,7 +249,7 @@ void SearchEngine::readInput(vector<string>& history, string& text, int x, int y
 
         //clear all suggestion
         for(int i=0;i<10;i++){
-	        gotoXY(44,(i+1)*1+16);
+	        gotoXY(44,(i+1)*1+15);
 	        cout<<blank;
 	    }
 
