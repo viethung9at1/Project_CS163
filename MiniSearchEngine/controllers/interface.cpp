@@ -1,25 +1,7 @@
 #include "../models/SearchEngine.h"
 #include<fstream>
 #define gotoxy gotoXY
-#define TOP_LEFT 201
-#define TOP_RIGHT 187
-#define BOT_LEFT 200
-#define BOT_RIGHT 188
-#define VERTICAL 186
-#define HORIZONTAL 205
-#define SPACE 32
 
-#define KEY_UP 72
-#define KEY_DOWN 80
-#define KEY_LEFT 75
-#define KEY_RIGHT 77
-
-#define TOP_LEFT_lite 218
-#define TOP_RIGHT_lite 191
-#define BOT_LEFT_lite 192
-#define BOT_RIGHT_lite 217
-#define VERTICAL_lite 179
-#define HORIZONTAL_lite 196
 using namespace std;
 void SearchEngine::run() {
     bool stop = true;
@@ -35,7 +17,7 @@ void SearchEngine::run() {
         int b = 1;
         int w1 = 51;
         //coordinate for search and suggestion
-        int x1 = 30;
+        int x1 = 29;
         int y1 = 12;
 
         // coordinate for read input
@@ -102,7 +84,7 @@ void SearchEngine::drawFrame(int a, int b, int w) {
 
 // search and suggestion frames
 void SearchEngine::draw(int x, int y) {
-    int w = 11, t = 11;
+    int w = 12, t = 12;
     gotoxy(x - 1, y); cout << (char)VERTICAL_lite;
     gotoxy(x + w, y); cout <<(char) VERTICAL_lite;
     gotoxy(x - 1, y - 1);
@@ -122,8 +104,8 @@ void SearchEngine::draw(int x, int y) {
     cout << (char)BOT_RIGHT_lite;
     gotoXY(x, y);
     cout << "   SEARCH";
-    w = 11;
-    t = 11;
+    w = 12;
+    t = 12;
     gotoxy(x - 1, y+4); cout << (char)VERTICAL_lite;
     gotoxy(x + w, y+4); cout << (char)VERTICAL_lite;
     gotoxy(x - 1, y +3);
@@ -141,7 +123,7 @@ void SearchEngine::draw(int x, int y) {
     }
     cout << (char)BOT_RIGHT_lite;
     gotoXY(x, y + 4);
-    cout << "SUGGESTION";
+    cout << " SUGGESTION";
 }
 void SearchEngine::suggest(int coor, string data) {
     int a = 44;

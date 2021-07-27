@@ -9,7 +9,25 @@
 #include <set>
 #include <algorithm>
 #include <sstream>
+#define TOP_LEFT 201
+#define TOP_RIGHT 187
+#define BOT_LEFT 200
+#define BOT_RIGHT 188
+#define VERTICAL 186
+#define HORIZONTAL 205
+#define SPACE 32
 
+#define KEY_UP 72
+#define KEY_DOWN 80
+#define KEY_LEFT 75
+#define KEY_RIGHT 77
+
+#define TOP_LEFT_lite 218
+#define TOP_RIGHT_lite 191
+#define BOT_LEFT_lite 192
+#define BOT_RIGHT_lite 217
+#define VERTICAL_lite 179
+#define HORIZONTAL_lite 196
 using std::set,std::map,std::vector;
 
 struct result {

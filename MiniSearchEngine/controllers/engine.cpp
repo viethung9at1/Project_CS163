@@ -232,7 +232,7 @@ void SearchEngine::showResult(string text, vector<result> results) {
 		int b = 1;
 		int w1 = 51;
 		//coordinate for search and suggestion
-		int x1 = 30;
+		int x1 = 29;
 		int y1 = 15;
 
 		// coordinate for read input
@@ -243,7 +243,26 @@ void SearchEngine::showResult(string text, vector<result> results) {
 		drawGoogle(x, y);
 
 		// readInput(history, rawText, a1, b1, stop);
-		gotoXY(x1, y1 - 3); cout << "SEARCH      :";
+		int w = 12, t = 12;
+		gotoXY(x1 - 1, y1-3); cout << (char)VERTICAL_lite;
+		gotoXY(x1 + w, y1-3); cout << (char)VERTICAL_lite;
+		gotoXY(x1 - 1, y1 - 4);
+		cout << (char)TOP_LEFT_lite;
+
+		while (w > 0) {
+			cout << (char)HORIZONTAL_lite;
+			w--;
+		}
+		cout << (char)TOP_RIGHT_lite;
+		gotoXY(x1 - 1, y1 -2);
+		cout << (char)BOT_LEFT_lite;
+		while (t > 0) {
+			cout << (char)HORIZONTAL_lite;
+			t--;
+		}
+		cout << (char)BOT_RIGHT_lite;
+		gotoXY(x1, y1-3);
+		cout << "   SEARCH";
 		gotoXY(a1, b1 - 3); cout << text;
 		
 		int _x = 21, _y = 15;
