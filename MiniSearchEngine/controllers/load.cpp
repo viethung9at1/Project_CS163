@@ -34,8 +34,8 @@ void SearchEngine::loadData() { // Load files, stopwords
 			vector<string> syn;
 			getline(fin, s);
 			for (int i = 0; i < s.length(); i++) {
-				if (s[i] != ' ') addToSyn += s[i];
-				if (i == s.length() - 1 || s[i] == ' ') {
+				if (s[i] != '\t') addToSyn += s[i];
+				if (i == s.length() - 1 || s[i] == '\t') {
 					syn.push_back(addToSyn);
 					synoMap[addToSyn] = synoList.size();
 					addToSyn = "";
