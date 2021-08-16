@@ -12,17 +12,18 @@ void SearchEngine::loadData() { // Load files, stopwords
 		while ((ent = readdir(dir)) != NULL)
 		{
 			if (ent->d_name[0] == '.') continue;
-			if (++numberOfFile > 2000) break;
+			if (++numberOfFile > 11000) break;
 			filenames.push_back(ent->d_name);
 
-			if (numberOfFile % 20 == 0) {
-				gotoXY(10 + numberOfFile / 20, 0);
+			if (numberOfFile % 110 == 0) {
+				gotoXY(10 + numberOfFile / 110, 0);
 				cout << (char)254;
 			}
 
 			//load file
 			data[ent->d_name] = NULL;
-			loadFile(data[ent->d_name], ent->d_name);
+			if (numberOfFile <= 2000) // this for load only first 2000 file, change this if want to change how files load
+				loadFile(data[ent->d_name], ent->d_name);
 		}
 		closedir(dir);
 	}
