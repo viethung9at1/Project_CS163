@@ -61,6 +61,7 @@ public:
 	void loadStopword();
 	void saveTrie(TrieNode*& root, string filename);
 	TrieNode* loadTrie(string filename);
+	void reload();
 
 	// interface.cpp
 	void run();
@@ -68,7 +69,7 @@ public:
 	void suggest(int coor, string data);
 
 	vector<string> getSuggestion(vector<string>history, string text);// Online History
-	void readInput(vector<string>& history, string& text, int x, int y, bool& stop);
+	void readInput(vector<string>& history, string& text, int x, int y, int& stop);
 	void drawFrame(int a, int b,int w);
 	void draw(int x, int y);
 

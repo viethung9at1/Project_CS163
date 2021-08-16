@@ -4,7 +4,7 @@
 
 using namespace std;
 void SearchEngine::run() {
-    bool stop = true;
+    int stop = 1;
     while (stop) {
         system("CLS");
 
@@ -30,6 +30,11 @@ void SearchEngine::run() {
 
         readInput(history, rawText, a1, b1, stop);
         if (!stop) break;
+        if (stop == 2) {
+            stop = 1;
+            reload();
+            continue;
+        }
 
         vector<result> results = searchQuery(rawText);
 
@@ -141,7 +146,7 @@ vector<string> SearchEngine::getSuggestion(vector<string>history, string text) {
     return tem;
 }
 
-void SearchEngine::readInput(vector<string>& history, string& text, int x, int y, bool& stop) {
+void SearchEngine::readInput(vector<string>& history, string& text, int x, int y, int& stop) {
     string blank(40,' ');
 	char character;
     ifstream fin;
@@ -186,7 +191,12 @@ void SearchEngine::readInput(vector<string>& history, string& text, int x, int y
     gotoxy(x, y);
     while (character = _getch(), (int)character != 13) {
         if ((int)character == 27) {
-            stop = false;
+            stop = 0;
+            return;
+        }
+        if ((int)character == 0) {
+            character = _getch();
+            stop = 2;
             return;
         }
         if (character == '\b') {

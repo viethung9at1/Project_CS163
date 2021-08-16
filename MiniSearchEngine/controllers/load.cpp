@@ -3,9 +3,68 @@
 #include<fstream>
 //#include<dirent.h>
 using namespace std;
+
+void SearchEngine::reload() {
+	DIR* dir; struct dirent* ent;
+	int numberOfFile = 0, totalFile = 0, scale, totalLoad = 0;
+	set<string> loaded;
+
+	system("CLS");
+	cout << "Loading - [" << string(100, '=') << ']';
+
+	if ((dir = opendir("Loaded")) != NULL) {
+		while ((ent = readdir(dir)) != NULL) {
+			if (ent->d_name[0] == '.') continue;
+			string filename = ent->d_name;
+			filename = filename.substr(0, filename.size() - 4);
+			loaded.insert(filename);
+		}
+		closedir(dir);
+	}
+
+	if ((dir = opendir("DataSearch")) != NULL) {
+		while ((ent = readdir(dir)) != NULL) {
+			if (ent->d_name[0] == '.') continue;
+			totalFile += 1;
+		}
+		closedir(dir);
+	}
+	totalLoad = totalFile - loaded.size();
+	scale = totalFile / 100;
+	if (scale == 0) {
+		scale = 1;
+		numberOfFile = 100 - totalLoad;
+		for (int i = 0; i < numberOfFile; ++i) {
+			gotoXY(10 + i, 0);
+			cout << (char)254;
+		}
+	}
+
+	if ((dir = opendir("DataSearch")) != NULL) {
+		while ((ent = readdir(dir)) != NULL) {
+			string filename = ent->d_name;
+			if (filename[0] == '.') continue;
+
+			if (!loaded.count(filename)) {
+				TrieNode* root = new TrieNode();
+				loadFile(root, filename);
+				saveTrie(root, filename);
+				filenames.push_back(filename);
+				data[filename] = root;
+
+				numberOfFile += 1;
+				if (numberOfFile % scale == 0 && numberOfFile / scale <= 100) {
+					gotoXY(10 + numberOfFile / scale, 0);
+					cout << (char)254;
+				}
+			}
+		}
+		closedir(dir);
+	}
+}
 void SearchEngine::loadData() { // Load files, stopwords
 	DIR* dir; struct dirent* ent;
-	int numberOfFile = 0, totalFile = 0, scale, totalLoad = 3000;
+	int numberOfFile = 0, totalFile = 0, scale, totalLoad = 1000;
 	set<string> loaded;
 
 	cout << "Loading - [" << string(100, '=') << ']';
@@ -47,7 +106,7 @@ void SearchEngine::loadData() { // Load files, stopwords
 			}
 
 			numberOfFile += 1;
-			if (numberOfFile % scale == 0) {
+			if (numberOfFile % scale == 0 && numberOfFile / scale <= 100) {
 				gotoXY(10 + numberOfFile / scale, 0);
 				cout << (char)254;
 			}
