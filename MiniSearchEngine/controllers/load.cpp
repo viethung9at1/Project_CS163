@@ -1,18 +1,22 @@
 #include "../models/SearchEngine.h"
 #include "../models/dirent.h"
 #include<fstream>
+#include<filesystem>
 //#include<dirent.h>
-using namespace std;
+namespace fs = std::filesystem;
+using std::ifstream, std::cout, std::endl;
+int numOfWord = 0;
 void SearchEngine::loadData() { // Load files, stopwords
 	DIR* dir;
 	struct dirent* ent;
 	int numberOfFile = 0;
 	cout << "Loading - [" << string(100, '=') << ']';
 	if ((dir = opendir("DataSearch")) != NULL) {
+		int i = 0;
 		while ((ent = readdir(dir)) != NULL)
 		{
 			if (ent->d_name[0] == '.') continue;
-			if (++numberOfFile > 2000) break;
+			//if (++numberOfFile > 2000) break;
 			filenames.push_back(ent->d_name);
 
 			if (numberOfFile % 20 == 0) {
@@ -23,7 +27,9 @@ void SearchEngine::loadData() { // Load files, stopwords
 			//load file
 			data[ent->d_name] = NULL;
 			loadFile(data[ent->d_name], ent->d_name);
+			//cout << ent->d_name << endl;
 		}
+		cout << i;
 		closedir(dir);
 	}
 	ifstream fin;
