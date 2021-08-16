@@ -4,6 +4,17 @@ TrieNode::TrieNode() {
 	isWord = isTitle = false;
 	for (int i = 0; i < 42; ++i) child[i] = NULL;
 }
+void TrieNode::clear() {
+	queue<TrieNode*> Queue;
+	Queue.push(this);
+	while (!Queue.empty()) {
+		TrieNode* node = Queue.front(); Queue.pop();
+		for(int i = 0; i < 42; ++i)
+			if (node->child[i]) 
+				Queue.push(node->child[i]);
+		delete node;
+	}
+}
 void TrieNode::insert(string key, int occur, bool isTitle) {
 	TrieNode* node = this;
 	int n = key.size();

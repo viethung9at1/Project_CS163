@@ -7,6 +7,7 @@
 #include <iostream>
 #include <vector>
 #include <set>
+#include <queue>
 #include <algorithm>
 #include <sstream>
 #define TOP_LEFT 201
@@ -56,6 +57,10 @@ public:
 	// load.cpp
 	void loadData(); // Load files, stopwords
 	void loadFile(TrieNode*& root, string filename);
+	void loadSyno();
+	void loadStopword();
+	void saveTrie(TrieNode*& root, string filename);
+	TrieNode* loadTrie(string filename);
 
 	// interface.cpp
 	void run();

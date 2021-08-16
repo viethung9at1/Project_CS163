@@ -53,6 +53,7 @@ vector<int> SearchEngine::fillMatch(vector<int> exactSearch, int numberOfWord) {
 	return occurs;
 }
 vector<result> SearchEngine::searchQuery(string text) {
+	int numberOfFile = 0;
 	vector<result> results;
 	for (string filename : filenames) {
 		int i = 0;
